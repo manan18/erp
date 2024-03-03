@@ -3,11 +3,11 @@ import { createContext } from "react";
 
 const AuthContext = createContext<{
   user: UserType | null;
-  login: (data: { identifier: string; password: string }) => void;
+  login: (data: { identifier: string; password: string }) => Promise<void>;
   logout: () => void;
 }>({
   user: null,
-  login: (data) => {},
+  login: (data) => new Promise(() => {}),
   logout: () => {},
 });
 

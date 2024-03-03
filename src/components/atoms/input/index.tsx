@@ -68,7 +68,7 @@ const Input = ({
               "pr-10": adornment && adornment.end,
             }
           )}
-          {...(register && rules && name && register(name, rules))}
+          {...(register && name && register(name, rules))}
         />
         {adornment && adornment.end && (
           <div
