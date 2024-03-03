@@ -1,14 +1,14 @@
 import { UserType } from "@/types/user";
 import { createContext } from "react";
 
-const AuthContext = createContext<{
+type AuthContextType = {
   user: UserType | null;
-  login: (data: { identifier: string; password: string }) => Promise<void>;
-  logout: () => void;
-}>({
+  setUser: (user: UserType | null) => void;
+};
+
+const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: (data) => new Promise(() => {}),
-  logout: () => {},
+  setUser: () => {},
 });
 
 export default AuthContext;
