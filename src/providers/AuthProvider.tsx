@@ -14,19 +14,19 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<any | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        getUser(user).then((userData) => {
-          setUser(userData);
-        });
+        const userData = await getUser(user);
+        setUser(userData);
       } else {
         setUser(null);
       }
     });
-    console.log("user", user);
 
     return () => unsubscribe();
   }, []);
+
+  console.log(user);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

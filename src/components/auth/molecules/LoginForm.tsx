@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { auth } from "@/config/firebase.config";
+import { signIn } from "@/lib/auth";
+import AuthContext from "@/contexts/auth-context";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -14,7 +17,7 @@ import Button from "@/components/atoms/button";
 import IconButton from "@/components/atoms/button/icon";
 
 type UserData = {
-  identifier: string;
+  email: string;
   password: string;
 };
 
@@ -27,13 +30,19 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<UserData>({
     defaultValues: {
-      identifier: "",
+      email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: UserData) => {
-    console.log(data);
+  const onSubmit = async (data: UserData) => {
+    const { email, password } = data;
+    try {
+      const userCredential = await signIn(email, password);
+      console.log(userCredential);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -57,7 +66,7 @@ const LoginForm = () => {
               icon: <MdVerifiedUser size={20} />,
             },
           }}
-          name="identifier"
+          name="email"
           register={register}
           rules={{
             required: {
@@ -65,8 +74,8 @@ const LoginForm = () => {
               message: "This field is required",
             },
           }}
-          error={!!errors.identifier}
-          helperText={errors.identifier?.message}
+          error={!!errors.email}
+          helperText={errors.email?.message}
         />
         <Input
           placeholder="Password"

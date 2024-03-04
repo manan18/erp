@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { auth, db } from "@/config/firebase.config";
-import { doc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doCreateUserWithEmailAndPassword } from "@/lib/auth";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -24,7 +22,7 @@ type UserData = {
   lastName: string;
 };
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
@@ -45,24 +43,16 @@ const LoginForm = () => {
 
   const onSubmit = async (data: UserData) => {
     console.log(data);
-
     const { email, password, confirmPassword, firstName, lastName } = data;
     if (password !== confirmPassword) return;
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
+      const user = await doCreateUserWithEmailAndPassword(
         email,
-        password
+        password,
+        firstName,
+        lastName
       );
-      const user = userCredential.user;
-      if (user) {
-        await setDoc(doc(db, "users", user.uid), {
-          email,
-          firstName,
-          lastName,
-        });
-      }
-      console.log("User Created");
+      console.log(user);
     } catch (error) {
       console.log(error);
     }
@@ -196,4 +186,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
