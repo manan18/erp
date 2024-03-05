@@ -20,6 +20,9 @@ const config: Config = {
           purple: "#667efa",
         },
       },
+      dropShadow: {
+        glow: "0 0 30px #15253e",
+      },
     },
   },
   plugins: [],
