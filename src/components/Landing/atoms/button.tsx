@@ -3,7 +3,8 @@ import clsx from "clsx";
 
 const variants = {
   pill: "rounded-full border-[1.5px] bg-[#19203c] border-[#282d60] text-sm text-[#818cf8] font-semibold",
-  outline: "border",
+  outline:
+    "border border-[#818cf8] text-[#818cf8] font-semibold rounded-full bg-transparent hover:bg-[#818cf8] hover:text-white",
   link: "underline",
 };
 

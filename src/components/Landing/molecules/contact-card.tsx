@@ -22,6 +22,7 @@ const ContactCard = ({
         <textarea
           className="w-full p-4 bg-gray-500/20 rounded-md"
           placeholder="Message"
+          rows={5}
           {...register("message")}
         ></textarea>
         <button className="bg-[#818cf8] text-white py-3 rounded-md">

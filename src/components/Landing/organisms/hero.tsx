@@ -21,6 +21,10 @@ const Hero = () => {
           ERP is a modern, open-source, and easy-to-use management system for
           your business.
         </p>
+        <div className="flex gap-4 mt-8">
+          <Button variant="outline">Get Started</Button>
+          <Button variant="pill">Learn More</Button>
+        </div>
       </div>
       <Banner />
     </div>
