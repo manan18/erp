@@ -8,8 +8,8 @@ import Link from "next/link";
 const Navbar = () => {
   const navigation = [
     { name: "Home", href: "#home" },
-    { name: "Features", href: "#features" },
-    { name: "Pricing", href: "#" },
+    { name: "Highlights", href: "#highlights" },
+    { name: "Features", href: "#" },
     { name: "Contact", href: "#" },
   ];
 

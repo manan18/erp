@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@/components/Landing/atoms/button";
 import Redirect from "@/components/Landing/atoms/link";
-import HeroBanner from "../molecules/hero-banner";
+import HeroBanner from "../molecules/banner/hero-banner";
 
 const Hero = () => {
   return (

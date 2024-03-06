@@ -1,26 +1,12 @@
 import React from "react";
+import Card from "../atoms/card";
+import { MdSpaceDashboard } from "react-icons/md";
 
-interface FeatureCardProps {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
-
-export const FeatureCard = ({ title, description, icon }: FeatureCardProps) => {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="bg-[#1f2335] p-4 rounded-full">{icon}</div>
-      <h3 className="text-2xl font-bold mt-4">{title}</h3>
-      <p className="text-center mt-4 text-gray-400">{description}</p>
-    </div>
-  );
-};
-
-const Feature = () => {
+const Features = () => {
   return (
     <div
-      className="h-screen bg-[#0b1121] flex-col text-white bg-blend-lighten flex justify-center items-center"
-      id="features"
+      className="min-h-screen bg-[#0b1121] flex-col text-white bg-blend-lighten flex justify-center items-center py-2"
+      id="highlights"
     >
       <div className="flex flex-col items-center max-w-[800px]">
         <p className="text-[#818cf8] text-xl font-bold">Features</p>
@@ -31,15 +17,15 @@ const Feature = () => {
           best experience.
         </p>
       </div>
-      <div className="flex gap-8 mt-8">
-        <FeatureCard
-          title="Easy to Use"
-          description="Our product is designed to be user-friendly and easy to use."
-          icon={<i className="fas fa-user-friends text-5xl"></i>}
+      <div className="flex justify-between items-center gap-8 mt-16">
+        <Card
+          icon={<MdSpaceDashboard size={30} />}
+          title="Dashboard"
+          description="Get a quick overview of your business in one place."
         />
       </div>
     </div>
   );
 };
 
-export default Feature;
+export default Features;
