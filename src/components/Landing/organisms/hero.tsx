@@ -1,12 +1,12 @@
 import React from "react";
 import Button from "@/components/Landing/atoms/button";
 import Redirect from "@/components/Landing/atoms/link";
-import HeroBanner from "../molecules/banner/hero-banner";
+import Banner from "../molecules/banner";
 
 const Hero = () => {
   return (
     <div
-      className="h-screen bg-[url('/images/hero.jpg')] bg-contain flex gap-8 p-10 items-center justify-center"
+      className="min-h-screen bg-[url('/images/hero.jpg')] bg-contain grid grid-cols-2 gap-8 p-10 place-items-center justify-center"
       id="#home"
     >
       <div className="max-w-[600px]">
@@ -22,7 +22,7 @@ const Hero = () => {
           your business.
         </p>
       </div>
-      <HeroBanner />
+      <Banner />
     </div>
   );
 };
