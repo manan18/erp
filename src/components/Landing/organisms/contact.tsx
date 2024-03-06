@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import ContactCard from "../molecules/contact-card";
 
 const Contact = () => {
   return (
@@ -14,6 +16,13 @@ const Contact = () => {
           contact us.
         </p>
       </div>
+      <ContactCard
+        onSubmit={(data) => {
+          if (data) {
+            console.log(data);
+          }
+        }}
+      />
     </div>
   );
 };
