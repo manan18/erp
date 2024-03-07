@@ -22,6 +22,7 @@ const config: Config = {
       },
       dropShadow: {
         glow: "0 0 30px #15253e",
+        input: "0 0 3px #818cf8",
       },
     },
   },

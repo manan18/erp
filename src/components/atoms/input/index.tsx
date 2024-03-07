@@ -3,9 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import { UseFormRegister, FieldValues, RegisterOptions } from "react-hook-form";
 
-type InputProps = {
-  placeholder: string;
-  type?: "text" | "password";
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   helperText?: string;
   adornment?: {
@@ -24,7 +22,8 @@ type InputProps = {
     "disabled" | "valueAsNumber" | "valueAsDate" | "setValueAs"
   >;
   register?: UseFormRegister<any>;
-};
+  className?: string;
+}
 
 const Input = ({
   placeholder,
@@ -37,6 +36,8 @@ const Input = ({
   value,
   rules,
   register,
+  className,
+  ...rest
 }: InputProps) => {
   return (
     <div className="flex flex-col gap-1">
@@ -44,7 +45,7 @@ const Input = ({
         {adornment && adornment.start && (
           <div
             className={clsx(
-              "absolute inset-y-0 flex items-center pl-3 pointer-events-none",
+              "absolute inset-y-0 flex items-center pl-3 pointer-events-none z-10",
               {
                 "text-gray-500": !error,
                 "text-red-500": error,
@@ -61,7 +62,8 @@ const Input = ({
           type={type}
           placeholder={placeholder}
           className={clsx(
-            "w-full p-3 border transition-all duration-100 focus:border-2 text-gray-500 font-[500] placeholder:font-normal border-gray-300 rounded-md focus:outline-none focus:border-blue-500",
+            "w-full p-3 transition-all duration-100 text-gray-500 font-[500] placeholder:font-normal rounded-md focus:outline-none focus:drop-shadow-input bg-gray-800 border min-w-[200px]",
+            className,
             {
               "border-red-500 focus:border-red-500": error,
               "pl-10": adornment && adornment.start,

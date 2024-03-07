@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { auth } from "@/config/firebase.config";
-import { signIn } from "@/lib/auth";
-import AuthContext from "@/contexts/auth-context";
+import { login } from "@/lib/auth";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -14,6 +12,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 //components
 import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
+import GoogleButton from "../atoms/google-button";
 import IconButton from "@/components/atoms/button/icon";
 
 type UserData = {
@@ -38,7 +37,7 @@ const LoginForm = () => {
   const onSubmit = async (data: UserData) => {
     const { email, password } = data;
     try {
-      const userCredential = await signIn(email, password);
+      const userCredential = await login(email, password);
       console.log(userCredential);
     } catch (error) {
       console.log(error);
@@ -47,11 +46,20 @@ const LoginForm = () => {
 
   return (
     <div className="">
-      <div className="flex items-center mb-5">
+      <div className="flex items-center gap-2">
         <Image src={logo} alt="Logo" width={50} height={50} />
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-semibold text-white">
+            Welcome back! 👋
+          </h1>
+          <small className="text-gray-500 text-sm">
+            Sign in to your account
+          </small>
+        </div>
       </div>
-      <h1 className="text-2xl font-semibold mb-2">Welcome back! 👋</h1>
-      <small className="text-gray-500 text-sm">Sign in to your account</small>
+      <div className="flex justify-center">
+        <GoogleButton />
+      </div>
       <form
         className="mt-5 flex flex-col gap-3"
         onSubmit={(e) => {

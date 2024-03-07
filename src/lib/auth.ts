@@ -1,18 +1,16 @@
-import { auth, db } from "@/config/firebase.config";
 import {
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   signInWithEmailAndPassword,
-  signInWithPopup,
-  User,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/config/firebase.config";
+import { setDoc, doc } from "firebase/firestore";
 
-export const doCreateUserWithEmailAndPassword = async (
+export const signUp = async (
   email: string,
   password: string,
-  firstName: string,
-  lastName: string
+  displayName: string
 ) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -21,52 +19,40 @@ export const doCreateUserWithEmailAndPassword = async (
       password
     );
     const user = userCredential.user;
-    const userRef = doc(db, "user", user.uid);
-    const data = {
-      email,
-      firstName,
-      lastName,
-    };
-    await setDoc(userRef, data);
+    await updateProfile(user, {
+      displayName,
+      photoURL: `https://oownee-development-preview.vercel.app/_next/static/media/profile-5.572682ae.svg`,
+    });
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      phoneNumber: user.phoneNumber,
+      uid: user.uid,
+    });
     return user;
   } catch (error) {
-    return error;
+    console.error(error);
   }
 };
 
-export const doSignInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  return result;
-};
-
-export const doSignOut = async () => {
-  try {
-    await auth.signOut();
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getUser = async (user: User) => {
-  const userRef = doc(db, "user", user.uid);
-  const userSnap = await getDoc(userRef);
-  if (userSnap.exists()) {
-    return userSnap.data();
-  } else {
-    return null;
-  }
-};
-
-export const signIn = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
-    return userCredential;
+    return userCredential.user;
   } catch (error) {
-    return error;
+    console.error(error);
+  }
+};
+
+export const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error(error);
   }
 };

@@ -1,4 +1,3 @@
-import Button from "@/components/atoms/button";
 import { Metadata } from "next";
 import logo from "@/assets/images/logo.png";
 import Navbar from "@/components/Landing/molecules/navbar";
