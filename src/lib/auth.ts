@@ -6,6 +6,12 @@ export type UserLoginType = {
   password: string;
 };
 
+export type UserRegisterType = {
+  email: string;
+  password: string;
+  name: string;
+};
+
 export async function login(user: UserLoginType) {
   await axios.post("http://localhost:4000/api/auth/login", user, {
     withCredentials: true,
@@ -26,6 +32,13 @@ export async function validate(): Promise<UserType> {
 
 export async function logout() {
   await axios.post("http://localhost:4000/api/auth/logout", undefined, {
+    withCredentials: true,
+  });
+  return null;
+}
+
+export async function signUp(user: UserRegisterType) {
+  await axios.post("http://localhost:4000/api/auth/register", user, {
     withCredentials: true,
   });
   return null;

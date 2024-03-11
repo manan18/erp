@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { signUp } from "@/lib/auth";
 import { Zoom, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -18,11 +19,13 @@ import Link from "next/link";
 type UserData = {
   email: string;
   password: string;
-  displayName: string;
+  name: string;
   confirmPassword: string;
 };
 
 const RegisterForm = () => {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
@@ -38,7 +41,7 @@ const RegisterForm = () => {
     defaultValues: {
       email: "",
       password: "",
-      displayName: "",
+      name: "",
       confirmPassword: "",
     },
   });
@@ -48,10 +51,10 @@ const RegisterForm = () => {
   const onSubmit = async (data: UserData) => {
     console.log(data);
 
-    const { email, password, displayName } = data;
+    const { email, password, name } = data;
     try {
       setLoading(true);
-      const user = await signUp(email, password, displayName);
+      const user = await signUp({ email, password, name });
       toast.success("Account created successfully", {
         position: "top-right",
         autoClose: 3000,
@@ -63,8 +66,8 @@ const RegisterForm = () => {
         draggable: true,
         progress: undefined,
       });
-      console.log(user);
       reset();
+      router.push("/");
     } catch (error) {
       console.error(error);
       toast.error("Error creating account", {
@@ -105,8 +108,8 @@ const RegisterForm = () => {
         name="displayName"
         register={register}
         rules={{ required: "This field is required" }}
-        error={!!errors.displayName}
-        helperText={errors.displayName?.message}
+        error={!!errors.name}
+        helperText={errors.name?.message}
       />
       <Input
         type="email"
