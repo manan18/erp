@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { signUp } from "@/lib/auth";
+import { Zoom, toast } from "react-toastify";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -12,40 +13,72 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
+import Link from "next/link";
 
 type UserData = {
   email: string;
   password: string;
   displayName: string;
+  confirmPassword: string;
 };
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors },
   } = useForm<UserData>({
     defaultValues: {
       email: "",
       password: "",
       displayName: "",
+      confirmPassword: "",
     },
   });
 
+  const watchPassword = watch("password", "");
+
   const onSubmit = async (data: UserData) => {
     console.log(data);
+
     const { email, password, displayName } = data;
-    if (password !== confirmPassword) return;
     try {
+      setLoading(true);
       const user = await signUp(email, password, displayName);
+      toast.success("Account created successfully", {
+        position: "top-right",
+        autoClose: 3000,
+        transition: Zoom,
+        icon: <span className="text-xl">🚀</span>,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log(user);
+      reset();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("Error creating account", {
+        position: "top-right",
+        autoClose: 1000,
+        transition: Zoom,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -116,8 +149,7 @@ const RegisterForm = () => {
           placeholder="Confirm Password"
           className="bg-gray-800"
           name="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          register={register}
           adornment={{
             end: {
               icon: showConfirmPassword ? (
@@ -133,12 +165,29 @@ const RegisterForm = () => {
               ),
             },
           }}
-          rules={{ required: "This field is required" }}
+          rules={{
+            required: "This field is required",
+            validate: (value) =>
+              value === watchPassword || "The passwords do not match",
+          }}
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?.message}
         />
       </div>
-      <Button type="submit" className="bg-primary-purple mt-3">
+      <Button
+        loading={loading}
+        type="submit"
+        className="bg-primary-purple mt-3"
+      >
         Register
       </Button>
+      <p className="text-gray-400 text-center">
+        {" "}
+        Already have an account?{" "}
+        <Link href="/auth/login" className="text-primary-purple">
+          Login
+        </Link>
+      </p>
     </form>
   );
 };

@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { login } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -14,6 +14,7 @@ import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
 import IconButton from "@/components/atoms/button/icon";
+import AuthContext from "@/contexts/AuthContext";
 
 type UserData = {
   email: string;
@@ -22,6 +23,13 @@ type UserData = {
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
+
+  const { login, error, loading } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log({ error });
+  }, [error]);
 
   const {
     register,
@@ -37,8 +45,9 @@ const LoginForm = () => {
   const onSubmit = async (data: UserData) => {
     const { email, password } = data;
     try {
-      const userCredential = await login(email, password);
+      const userCredential = await login({ email, password });
       console.log(userCredential);
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +127,7 @@ const LoginForm = () => {
           error={!!errors.password}
           helperText={errors.password?.message}
         />
-        <Button type="submit" loading={false}>
+        <Button type="submit" loading={loading}>
           Login
         </Button>
       </form>

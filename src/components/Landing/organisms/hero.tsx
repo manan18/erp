@@ -2,8 +2,11 @@ import React from "react";
 import Button from "@/components/Landing/atoms/button";
 import Redirect from "@/components/Landing/atoms/link";
 import Banner from "../molecules/banner";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+  const router = useRouter();
+
   return (
     <div
       className="min-h-screen bg-[url('/images/hero.jpg')] bg-contain grid grid-cols-2 gap-8 p-10 place-items-center justify-center"
@@ -22,7 +25,14 @@ const Hero = () => {
           your business.
         </p>
         <div className="flex gap-4 mt-8">
-          <Button variant="outline">Get Started</Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              router.push("/auth/register");
+            }}
+          >
+            Get Started
+          </Button>
           <Button variant="pill">Learn More</Button>
         </div>
       </div>

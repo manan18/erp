@@ -1,7 +1,9 @@
 "use client";
-import React from "react";
+import React, { LegacyRef } from "react";
 import clsx from "clsx";
 import { UseFormRegister, FieldValues, RegisterOptions } from "react-hook-form";
+
+type NewType = LegacyRef<HTMLInputElement>;
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
@@ -23,6 +25,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   >;
   register?: UseFormRegister<any>;
   className?: string;
+  ref?: NewType | undefined;
 }
 
 const Input = ({
@@ -37,6 +40,7 @@ const Input = ({
   rules,
   register,
   className,
+  ref,
   ...rest
 }: InputProps) => {
   return (
@@ -58,11 +62,12 @@ const Input = ({
         <input
           name={name}
           value={value}
+          ref={ref}
           onChange={onChange}
           type={type}
           placeholder={placeholder}
           className={clsx(
-            "w-full p-3 transition-all duration-100 text-gray-500 font-[500] placeholder:font-normal rounded-md focus:outline-none focus:drop-shadow-input bg-gray-800 border min-w-[200px]",
+            "w-full p-3 transition-all duration-100 text-white font-[500] placeholder:font-normal rounded-md focus:outline-none focus:drop-shadow-input bg-gray-800 border min-w-[200px]",
             className,
             {
               "border-red-500 focus:border-red-500": error,
