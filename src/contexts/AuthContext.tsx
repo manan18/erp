@@ -2,7 +2,13 @@
 
 import { UserType } from "@/types/user";
 import React, { createContext, useEffect } from "react";
-import { UserLoginType, login as l, validate as v } from "@/lib/auth";
+import {
+  UserLoginType,
+  login as l,
+  validate as v,
+  signUp,
+  UserRegisterType,
+} from "@/lib/auth";
 
 export enum Role {
   GUEST = "guest",
@@ -17,8 +23,9 @@ export type AuthDataType = {
 const AuthContext = createContext<{
   authData: AuthDataType;
   error: string | null;
-  login: (user: UserLoginType) => void;
-  logout: () => void;
+  login: (user: UserLoginType) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (user: UserRegisterType) => Promise<void>;
   loading: boolean;
 }>({
   authData: {
@@ -26,8 +33,9 @@ const AuthContext = createContext<{
     role: Role.GUEST,
   },
   error: null,
-  login: () => {},
-  logout: () => {},
+  login: async () => {},
+  logout: async () => {},
+  register: async () => {},
   loading: true,
 });
 
@@ -91,6 +99,22 @@ export const AuthProvider: React.FC<{
     }
   };
 
+  const register = async (user: UserRegisterType) => {
+    try {
+      setLoading(true);
+      await signUp(user);
+      const userData = await v();
+      setAuthData({
+        role: Role.USER,
+        user: userData,
+      });
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     // Init load, validate
     validate();
@@ -108,6 +132,7 @@ export const AuthProvider: React.FC<{
         loading,
         login,
         logout,
+        register,
       }}
     >
       {children}

@@ -45,7 +45,7 @@ const LoginForm = () => {
   const onSubmit = async (data: UserData) => {
     const { email, password } = data;
     try {
-      const userCredential = await login({ email, password });
+      const userCredential = login({ email, password });
       console.log(userCredential);
       router.push("/");
     } catch (error) {

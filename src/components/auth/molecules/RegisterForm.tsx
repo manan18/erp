@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { signUp } from "@/lib/auth";
 import { Zoom, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import AuthContext from "@/contexts/AuthContext";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -25,6 +25,7 @@ type UserData = {
 
 const RegisterForm = () => {
   const router = useRouter();
+  const { register: signUp } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
