@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import ContactCard from "../molecules/contact-card";
+import ContactCard from "../molecules/cards/contact-card";
 
 const Contact = () => {
   return (
     <div
-      className="min-h-screen bg-[#0b1121] flex-col text-white bg-blend-lighten flex justify-center items-center py-28"
+      className="min-h-screen bg-[#0b1121] flex-col text-white flex justify-center items-center py-28"
       id="contact"
     >
       <div className="flex flex-col items-center max-w-[800px]">

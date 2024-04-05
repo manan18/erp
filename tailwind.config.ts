@@ -26,6 +26,9 @@ const config: Config = {
         glow: "0 0 30px #15253e",
         input: "0 0 3px #818cf8",
       },
+      fontFamily: {
+        reenie: ["Reenie Beanie", "cursive"],
+      },
     },
   },
   plugins: [],

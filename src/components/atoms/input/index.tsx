@@ -1,20 +1,19 @@
 "use client";
-import React, { LegacyRef } from "react";
+import React, { LegacyRef, ReactElement } from "react";
 import clsx from "clsx";
 import { UseFormRegister, FieldValues, RegisterOptions } from "react-hook-form";
 
 type NewType = LegacyRef<HTMLInputElement>;
+interface AdornmentProps {
+  icon: React.ReactNode | null | ReactElement;
+}
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   helperText?: string;
   adornment?: {
-    start?: {
-      icon: React.ReactNode;
-    };
-    end?: {
-      icon: React.ReactNode;
-    };
+    start?: AdornmentProps;
+    end?: AdornmentProps;
   };
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name?: string;
@@ -46,7 +45,7 @@ const Input = ({
   return (
     <div className="flex flex-col gap-1">
       <div className="relative">
-        {adornment && adornment.start && (
+        {adornment && adornment.start && adornment.start.icon && (
           <div
             className={clsx(
               "absolute inset-y-0 flex items-center pl-3 pointer-events-none z-10",
@@ -55,9 +54,7 @@ const Input = ({
                 "text-red-500": error,
               }
             )}
-          >
-            {adornment.start.icon}
-          </div>
+          ></div>
         )}
         <input
           name={name}

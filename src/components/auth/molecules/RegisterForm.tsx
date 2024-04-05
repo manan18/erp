@@ -1,14 +1,18 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { Zoom, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { usernameExists } from "@/lib/auth";
 import AuthContext from "@/contexts/AuthContext";
 
 //assets
 import logo from "@/assets/images/logo.png";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { CgUnavailable } from "react-icons/cg";
+import { CiCircleCheck } from "react-icons/ci";
+import { MoonLoader } from "react-spinners";
 
 //components
 import Input from "@/components/atoms/input";
@@ -18,6 +22,7 @@ import Link from "next/link";
 
 type UserData = {
   email: string;
+  username: string;
   password: string;
   name: string;
   confirmPassword: string;
@@ -27,10 +32,19 @@ const RegisterForm = () => {
   const router = useRouter();
   const { register: signUp } = useContext(AuthContext);
 
+  const usernameAvailableStatus = {
+    Available: <CiCircleCheck className="text-green-500" />,
+    Unavailable: <CgUnavailable className="text-red-500" />,
+    Loading: <MoonLoader size={20} color="#818cf8" />,
+  };
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [usernameStatus, setUsernameStatus] = useState<
+    keyof typeof usernameAvailableStatus | null
+  >(null);
 
   const {
     register,
@@ -43,19 +57,30 @@ const RegisterForm = () => {
       email: "",
       password: "",
       name: "",
+      username: "",
       confirmPassword: "",
     },
   });
 
   const watchPassword = watch("password", "");
+  const watchUsername = watch("username", "");
+
+  useMemo(() => {
+    if (watchUsername) {
+      setUsernameStatus("Loading");
+      usernameExists(watchUsername).then((res) => {
+        setUsernameStatus(res ? "Unavailable" : "Available");
+      });
+    } else {
+      setUsernameStatus(null);
+    }
+  }, [watchUsername]);
 
   const onSubmit = async (data: UserData) => {
-    console.log(data);
-
-    const { email, password, name } = data;
+    const { email, password, name, username } = data;
     try {
       setLoading(true);
-      const user = await signUp({ email, password, name });
+      await signUp({ email, password, name, username });
       toast.success("Account created successfully", {
         position: "top-right",
         autoClose: 3000,
@@ -104,9 +129,37 @@ const RegisterForm = () => {
       </div>
       <Input
         type="text"
+        placeholder="Username"
+        className="bg-gray-800"
+        adornment={{
+          end: {
+            icon: usernameStatus
+              ? usernameAvailableStatus[usernameStatus]
+              : null,
+          },
+        }}
+        name="username"
+        register={register}
+        rules={{
+          required: "This field is required",
+          minLength: {
+            value: 3,
+            message: "Username should be at least 3 characters",
+          },
+          validate: (value) => {
+            return (
+              usernameStatus === "Available" || "Username is not available"
+            );
+          },
+        }}
+        error={!!errors.username}
+        helperText={errors.username?.message}
+      />
+      <Input
+        type="text"
         placeholder="Full Name"
         className="bg-gray-800"
-        name="displayName"
+        name="name"
         register={register}
         rules={{ required: "This field is required" }}
         error={!!errors.name}

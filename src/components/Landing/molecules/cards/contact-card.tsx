@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import Input from "../atoms/input";
+import Input from "../../atoms/input";
 
 type ContactCardData = {
   name: string;
