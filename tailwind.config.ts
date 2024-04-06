@@ -21,6 +21,13 @@ const config: Config = {
           purple: "#667efa",
           background: "#0b1121",
         },
+        background: {
+          primary: "#0b1121",
+        },
+        header: {
+          primary: "#1f2335",
+          secondary: "#fff",
+        },
       },
       dropShadow: {
         glow: "0 0 30px #15253e",

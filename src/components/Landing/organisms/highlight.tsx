@@ -53,12 +53,14 @@ const Hightlights = () => {
 
   return (
     <div
-      className="min-h-screen bg-[#0b1121] flex-col text-white bg-blend-lighten flex justify-center items-center py-28"
+      className="min-h-screen bg-background-primary flex-col text-white bg-blend-lighten flex justify-center items-center py-28"
       id="highlights"
     >
       <div className="flex flex-col items-center max-w-[800px]">
         <p className="text-[#818cf8] text-xl font-bold">Highlights</p>
-        <h3 className="text-4xl font-bold mt-4">Why Choose Us?</h3>
+        <h3 className="text-4xl font-bold mt-4 text-header-secondary">
+          Why Choose Us?
+        </h3>
         <p className="text-center mt-4 text-gray-400">
           Every feature is designed to make your life easier and better. We are
           constantly working on improving our product so that you can have the

@@ -2,8 +2,7 @@ import { UserType } from "@/types/user";
 import axios from "@/config/axios.config";
 
 export type UserLoginType = {
-  username: string;
-  email: string;
+  identifier: string;
   password: string;
 };
 

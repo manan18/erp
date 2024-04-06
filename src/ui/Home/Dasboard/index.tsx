@@ -6,7 +6,7 @@ const DashboardView = () => {
   return (
     <DashboardLayout>
       <div>
-        <h1 className="text-2xl">Good Morning Sumit</h1>
+        <h1 className="text-2xl text-white">Good Morning Sumit</h1>
       </div>
     </DashboardLayout>
   );

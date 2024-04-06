@@ -17,7 +17,7 @@ import IconButton from "@/components/atoms/button/icon";
 import AuthContext from "@/contexts/AuthContext";
 
 type UserData = {
-  email: string;
+  identifier: string;
   password: string;
 };
 
@@ -37,15 +37,15 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<UserData>({
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   });
 
   const onSubmit = async (data: UserData) => {
-    const { email, password } = data;
+    const { identifier, password } = data;
     try {
-      const userCredential = login({ email, password });
+      const userCredential = login({ identifier, password });
       console.log(userCredential);
       router.push("/");
     } catch (error) {
@@ -83,7 +83,7 @@ const LoginForm = () => {
               icon: <MdVerifiedUser size={20} />,
             },
           }}
-          name="email"
+          name="identifier"
           register={register}
           rules={{
             required: {
@@ -91,8 +91,8 @@ const LoginForm = () => {
               message: "This field is required",
             },
           }}
-          error={!!errors.email}
-          helperText={errors.email?.message}
+          error={!!errors.identifier}
+          helperText={errors.identifier?.message}
         />
         <Input
           placeholder="Password"
