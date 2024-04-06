@@ -41,7 +41,7 @@ const Small = ({
         )}
         style={style}
       >
-        <p className="text-white/70 flex-1 flex items-center mx-3 mt-4 mb-5 text-[15px] italic">
+        <p className="text-black/70 flex-1 flex items-center mx-3 mt-4 mb-5 text-[15px] italic">
           &quot;{message}&quot;
         </p>
         <div className="flex items-center gap-4">
@@ -53,7 +53,7 @@ const Small = ({
             className="rounded-full w-12 h-12"
           />
           <div>
-            <p className="font-bold text-lg text-white">{name}</p>
+            <p className="font-bold text-lg text-pallete1-title">{name}</p>
             <p className="text-[#cccdce] text-sm">{username}</p>
             <p className="text-[#cccdce] text-sm">
               {designation}, {company}

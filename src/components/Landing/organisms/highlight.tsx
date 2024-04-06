@@ -10,8 +10,8 @@ interface FeatureCardProps {
 export const FeatureCard = ({ title, description, icon }: FeatureCardProps) => {
   return (
     <div className="flex flex-col max-w-[300px] items-center">
-      <div className="bg-[#1f2335] p-2 rounded-full">{icon}</div>
-      <h3 className="text-xl font-bold mt-4">{title}</h3>
+      <div className="bg-pallete1-title p-2 rounded-full">{icon}</div>
+      <h3 className="text-xl font-bold mt-4 text-pallete1-title">{title}</h3>
       <p className="text-center mt-4 text-gray-400">{description}</p>
     </div>
   );
@@ -57,11 +57,13 @@ const Hightlights = () => {
       id="highlights"
     >
       <div className="flex flex-col items-center max-w-[800px]">
-        <p className="text-[#818cf8] text-xl font-bold">Highlights</p>
-        <h3 className="text-4xl font-bold mt-4 text-header-secondary">
+        <p className="text-xl font-bold text-pallete1-headersmall">
+          Highlights
+        </p>
+        <h3 className="text-4xl font-bold mt-4 text-pallete1-headerbig">
           Why Choose Us?
         </h3>
-        <p className="text-center mt-4 text-gray-400">
+        <p className="text-center mt-4 text-pallete1-headercaption">
           Every feature is designed to make your life easier and better. We are
           constantly working on improving our product so that you can have the
           best experience.

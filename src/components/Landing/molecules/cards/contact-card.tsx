@@ -25,7 +25,7 @@ const ContactCard = ({
           rows={5}
           {...register("message")}
         ></textarea>
-        <button className="bg-[#818cf8] text-white py-3 rounded-md">
+        <button className="bg-pallete1-button-background text-white py-3 rounded-md font-semibold">
           Submit
         </button>
       </form>

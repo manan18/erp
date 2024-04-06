@@ -9,7 +9,7 @@ const Hero = () => {
 
   return (
     <div
-      className="min-h-screen bg-[url('/images/hero.jpg')] bg-contain grid grid-cols-2 gap-8 p-10 place-items-center justify-center"
+      className="min-h-screen bg-[url('https://tailwindui.com/img/beams-home@95.jpg')] bg-contain grid grid-cols-2 gap-8 p-10 place-items-center justify-center"
       id="#home"
     >
       <div className="max-w-[600px]">
@@ -17,7 +17,7 @@ const Hero = () => {
           <Button variant="pill">What&apos;s New</Button>
           <Redirect to="https://github.com/sumit-022/erp">Open Source</Redirect>
         </div>
-        <h1 className="text-5xl font-bold text-white">
+        <h1 className="text-5xl font-bold text-[#04293a]">
           Manage your business with ease!
         </h1>
         <p className="text-gray-300 mt-4">
