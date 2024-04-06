@@ -6,3 +6,11 @@
 html {
   scroll-behavior: smooth;
 }
+
+.top0 {
+  top: 0;
+}
+
+.top5 {
+  top: 20px;
+}

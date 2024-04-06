@@ -17,13 +17,14 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (!navRef.current) return;
       if (window.scrollY > 10) {
         navRef?.current?.classList.add("bg-white");
         navRef?.current?.classList.add("shadow-md");
-        navRef?.current?.classList.add("top-0");
+        navRef.current.style.top = "0";
       } else {
-        navRef?.current?.classList.remove("bg-white");
-        navRef?.current?.classList.remove("top-0");
+        navRef.current.classList.remove("bg-white");
+        navRef.current.style.top = "1.25rem";
         navRef?.current?.classList.remove("shadow-md");
       }
     };
@@ -37,7 +38,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="fixed z-10 w-full top-5 transition-all duration-300 ease-in-out"
+      className="fixed z-10 top-5 w-full transition-all duration-300 ease-in-out"
       ref={navRef}
     >
       <div className="w-[90%] mx-auto flex justify-between items-center px-16 py-2">
