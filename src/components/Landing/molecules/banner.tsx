@@ -3,7 +3,7 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import React from "react";
 
-const Banner = ({ className }: { className?: string; }) => {
+const Banner = ({ className }: { className?: string }) => {
   return (
     <div
       className={clsx(

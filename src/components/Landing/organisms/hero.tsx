@@ -17,7 +17,7 @@ const Hero = () => {
           <Button variant="pill">What&apos;s New</Button>
           <Redirect to="https://github.com/sumit-022/erp">Open Source</Redirect>
         </div>
-        <h1 className="text-5xl font-bold text-[#04293a]">
+        <h1 className="text-5xl font-bold text-header-small">
           Manage your business with ease!
         </h1>
         <p className="text-gray-300 mt-4">
