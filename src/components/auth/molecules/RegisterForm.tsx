@@ -1,10 +1,12 @@
 "use client";
-import React, { useState, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo, useRef } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { Zoom, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { usernameExists } from "@/lib/auth";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import AuthContext from "@/contexts/AuthContext";
 
 //assets
@@ -45,6 +47,7 @@ const RegisterForm = () => {
   const [usernameStatus, setUsernameStatus] = useState<
     keyof typeof usernameAvailableStatus | null
   >(null);
+  const containerRef = useRef(null);
 
   const {
     register,
@@ -75,6 +78,14 @@ const RegisterForm = () => {
       setUsernameStatus(null);
     }
   }, [watchUsername]);
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+    tl.from(containerRef.current, {
+      width: 0,
+      duration: 0.6,
+    });
+  }, [containerRef.current]);
 
   const onSubmit = async (data: UserData) => {
     const { email, password, name, username } = data;
@@ -112,140 +123,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex gap-2 items-center">
-        <Image src={logo} alt="logo" width={50} height={50} />
-        <div className="flex flex-col gap-1">
-          <h1 className="text-gray-200 text-2xl font-bold">
-            Welcome to the Community 👋
-          </h1>
-          <h3 className="italic text-gray-400">
-            Create an account to continue!
-          </h3>
-        </div>
-      </div>
-      <div className="flex space-x-4 justify-center">
-        <GoogleButton />
-      </div>
-      <Input
-        type="text"
-        placeholder="Username"
-        className="bg-gray-800"
-        adornment={{
-          end: {
-            icon: usernameStatus
-              ? usernameAvailableStatus[usernameStatus]
-              : null,
-          },
-        }}
-        name="username"
-        register={register}
-        rules={{
-          required: "This field is required",
-          minLength: {
-            value: 3,
-            message: "Username should be at least 3 characters",
-          },
-          validate: (value) => {
-            return (
-              usernameStatus === "Available" || "Username is not available"
-            );
-          },
-        }}
-        error={!!errors.username}
-        helperText={errors.username?.message}
-      />
-      <Input
-        type="text"
-        placeholder="Full Name"
-        className="bg-gray-800"
-        name="name"
-        register={register}
-        rules={{ required: "This field is required" }}
-        error={!!errors.name}
-        helperText={errors.name?.message}
-      />
-      <Input
-        type="email"
-        placeholder="Email"
-        className="bg-gray-800"
-        name="email"
-        register={register}
-        rules={{ required: "This field is required" }}
-        error={!!errors.email}
-        helperText={errors.email?.message}
-      />
-      <div className="grid grid-cols-2 gap-3">
-        <Input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          className="bg-gray-800"
-          name="password"
-          register={register}
-          adornment={{
-            end: {
-              icon: showPassword ? (
-                <IoMdEyeOff
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="cursor-pointer"
-                />
-              ) : (
-                <IoMdEye
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="cursor-pointer"
-                />
-              ),
-            },
-          }}
-          rules={{ required: "This field is required" }}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-        />
-        <Input
-          type={showConfirmPassword ? "text" : "password"}
-          placeholder="Confirm Password"
-          className="bg-gray-800"
-          name="confirmPassword"
-          register={register}
-          adornment={{
-            end: {
-              icon: showConfirmPassword ? (
-                <IoMdEyeOff
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="cursor-pointer"
-                />
-              ) : (
-                <IoMdEye
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="cursor-pointer"
-                />
-              ),
-            },
-          }}
-          rules={{
-            required: "This field is required",
-            validate: (value) =>
-              value === watchPassword || "The passwords do not match",
-          }}
-          error={!!errors.confirmPassword}
-          helperText={errors.confirmPassword?.message}
-        />
-      </div>
-      <Button
-        loading={loading}
-        type="submit"
-        className="bg-primary-purple mt-3"
-      >
-        Register
-      </Button>
-      <p className="text-gray-400 text-center">
-        {" "}
-        Already have an account?{" "}
-        <Link href="/auth/login" className="text-primary-purple">
-          Login
-        </Link>
-      </p>
-    </form>
+    <div
+      className="w-full sm:max-w-3xl max-w-[85vw] p-5 rounded-md shadow-md bg-white bg-opacity-10 backdrop-blur-lg border-2 border-white border-opacity-10"
+      ref={containerRef}
+    >
+      
+    </div>
   );
 };
 
