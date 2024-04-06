@@ -2,10 +2,10 @@ import React from "react";
 import clsx from "clsx";
 
 const variants = {
-  pill: "rounded-full border-[1.5px] bg-[#19203c] border-[#282d60] text-sm text-[#818cf8] font-semibold",
+  pill: "rounded-full border-[1.5px] bg-pallete1-button-background border-pallete1-button-border text-sm text-pallete1-button-text font-semibold",
   outline:
-    "border border-[#818cf8] text-[#818cf8] font-semibold rounded-full bg-transparent hover:bg-[#818cf8] hover:text-white",
-  link: "underline",
+    "border border-pallete1-button-background text-pallete1-button-background font-semibold rounded-full bg-transparent hover:bg-pallete1-button-background hover:text-white",
+  link: "underline text-pallete1-button-background",
 };
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

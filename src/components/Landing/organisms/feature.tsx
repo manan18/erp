@@ -39,11 +39,11 @@ const Features = () => {
       id="features"
     >
       <div className="flex flex-col items-center max-w-[800px]">
-        <p className="text-[#818cf8] text-xl font-bold">Features</p>
-        <h3 className="text-4xl font-bold mt-4 text-header-secondary">
+        <p className="text-pallete1-headersmall text-xl font-bold">Features</p>
+        <h3 className="text-4xl font-bold mt-4 text-pallete1-headerbig">
           Why Choose Us?
         </h3>
-        <p className="text-center mt-4 text-gray-400">
+        <p className="text-center mt-4 text-pallete1-headercaption">
           Every feature is designed to make your life easier and better. We are
           constantly working on improving our product so that you can have the
           best experience.

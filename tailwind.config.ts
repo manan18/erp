@@ -15,6 +15,21 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
+        pallete1: {
+          background: "f4f4f4",
+          headersmall: "#04293a",
+          headerbig: "#04293a",
+          headercaption: "#B7BDB0",
+          title: "#064663",
+          button: {
+            text: "#fff",
+            background: "#1081d9",
+            border: "#1081d9",
+          },
+          link: {
+            blue: "#1081d9",
+          },
+        },
         primary: {
           dark: "#0b0d0c",
           red: "#fa3a5c",
@@ -22,11 +37,11 @@ const config: Config = {
           background: "#0b1121",
         },
         background: {
-          primary: "#0b1121",
+          primary: "#fff",
         },
         header: {
-          primary: "#1f2335",
-          secondary: "#fff",
+          primary: "#7a7d68",
+          secondary: "#7a7d68",
         },
       },
       dropShadow: {

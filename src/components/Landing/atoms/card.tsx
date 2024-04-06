@@ -34,18 +34,18 @@ const Card = ({
     >
       <div
         className={clsx(
-          "flex items-center justify-center w-14 h-14 text-[#818cf8] rounded-full bg-gray-300/5",
+          "flex items-center justify-center w-14 h-14 text-pallete1-button-background rounded-full bg-gray-300/5",
           {
-            "text-white": active,
+            "text-pallete1-title": active,
           }
         )}
       >
         {icon}
       </div>
       <div className="flex flex-col gap-3">
-        <h3 className="text-lg font-bold">{title}</h3>
+        <h3 className="text-lg font-bold text-pallete1-title">{title}</h3>
         <p className="text-gray-400">{description}</p>
-        <Link href="/#" className="text-blue-500 w-max hover:text-blue-600">
+        <Link href="/#" className="text-pallete1-link-blue w-max hover:text-blue-600">
           Learn more <FaAngleRight className="inline" />
         </Link>
       </div>

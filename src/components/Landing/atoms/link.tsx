@@ -15,7 +15,7 @@ const Redirect = ({ to, children, className }: RedirectProps) => {
     <Link
       href={to}
       className={clsx(
-        "flex items-center text-sm space-x-2 text-white",
+        "flex items-center text-sm space-x-2 text-pallete1-link-blue",
         className
       )}
     >
