@@ -30,7 +30,7 @@ type UserData = {
   password: string;
   name: string;
   confirmPassword: string;
-  gender: "Male" | "Female";
+  gender: "Male" | "Female" | null;
 };
 
 const RegisterForm = () => {
@@ -61,6 +61,7 @@ const RegisterForm = () => {
   } = useForm<UserData>({
     defaultValues: {
       email: "",
+      gender: null,
       password: "",
       name: "",
       username: "",
@@ -204,12 +205,6 @@ const RegisterForm = () => {
             name="email"
             required
           />
-          <RadioGroup
-            options={radioOptions}
-            label="Gender"
-            name="gender"
-            register={register}
-          />
           <div className="grid grid-cols-2 gap-6">
             <Input
               type="text"
@@ -224,6 +219,12 @@ const RegisterForm = () => {
               register={register}
             />
           </div>
+          <RadioGroup
+            options={radioOptions}
+            label="Gender"
+            name="gender"
+            register={register}
+          />
           <Button type="submit" loading={loading}>
             Sign Up
           </Button>

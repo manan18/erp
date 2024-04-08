@@ -29,22 +29,16 @@ const RadioGroup = ({
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium text-gray-700">{label}</label>
-      <div className="flex gap-2 w-full">
+      <div className="flex gap-14 w-full">
         {options.map((option) => (
-          <div key={option.value} className="flex items-center">
+          <div key={option.value} className="flex items-center gap-2">
             <input
               type="radio"
+              id={option.value}
               value={option.value}
               {...(register && name && register(name, rules))}
-              ref={ref}
-              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
             />
-            <label
-              htmlFor={option.value}
-              className="ml-2 block text-sm text-gray-900"
-            >
-              {option.label}
-            </label>
+            <label htmlFor={option.value}>{option.label}</label>
           </div>
         ))}
       </div>
