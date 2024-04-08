@@ -64,7 +64,7 @@ const Input = ({
           type={type}
           placeholder={placeholder}
           className={clsx(
-            "w-full p-3 transition-all duration-100 text-white font-[500] placeholder:font-normal rounded-md focus:outline-none focus:drop-shadow-input bg-gray-800 border min-w-[200px]",
+            "w-full p-3 transition-all duration-100 font-[500] placeholder:font-normal rounded-md focus:outline-none focus:drop-shadow-input bg-pallete1-input-background border min-w-[200px]",
             className,
             {
               "border-red-500 focus:border-red-500": error,

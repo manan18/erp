@@ -29,6 +29,9 @@ const config: Config = {
           link: {
             blue: "#1081d9",
           },
+          input: {
+            background: "#f4f4f4",
+          },
         },
         primary: {
           dark: "#0b0d0c",

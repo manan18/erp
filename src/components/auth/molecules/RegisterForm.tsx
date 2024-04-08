@@ -11,6 +11,7 @@ import AuthContext from "@/contexts/AuthContext";
 
 //assets
 import logo from "@/assets/images/logo.png";
+import bannerimage from "@/assets/images/signup-banner.jpg";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { CgUnavailable } from "react-icons/cg";
 import { CiCircleCheck } from "react-icons/ci";
@@ -21,6 +22,7 @@ import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
 import Link from "next/link";
+import RadioGroup from "../atoms/radio";
 
 type UserData = {
   email: string;
@@ -28,6 +30,7 @@ type UserData = {
   password: string;
   name: string;
   confirmPassword: string;
+  gender: "Male" | "Female";
 };
 
 const RegisterForm = () => {
@@ -90,21 +93,21 @@ const RegisterForm = () => {
   const onSubmit = async (data: UserData) => {
     const { email, password, name, username } = data;
     try {
-      setLoading(true);
-      await signUp({ email, password, name, username });
-      toast.success("Account created successfully", {
-        position: "top-right",
-        autoClose: 3000,
-        transition: Zoom,
-        icon: <span className="text-xl">🚀</span>,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      reset();
-      router.push("/");
+      console.log(data);
+      // await signUp({ email, password, name, username });
+      // toast.success("Account created successfully", {
+      //   position: "top-right",
+      //   autoClose: 3000,
+      //   transition: Zoom,
+      //   icon: <span className="text-xl">🚀</span>,
+      //   hideProgressBar: true,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+      // reset();
+      // router.push("/");
     } catch (error) {
       console.error(error);
       toast.error("Error creating account", {
@@ -122,12 +125,111 @@ const RegisterForm = () => {
     }
   };
 
+  const radioOptions = [
+    {
+      value: "Male",
+      label: "Male",
+    },
+    {
+      value: "Female",
+      label: "Female",
+    },
+  ];
+
   return (
     <div
-      className="w-full sm:max-w-3xl max-w-[85vw] p-5 rounded-md shadow-md bg-white bg-opacity-10 backdrop-blur-lg border-2 border-white border-opacity-10"
+      className="w-full bg-white sm:max-w-6xl max-w-[85vw] min-h-[200px] rounded-md shadow-lg border border-white grid grid-cols-2"
       ref={containerRef}
     >
-      
+      <div className="p-3">
+        <div className="flex space-x-4 items-center">
+          <Image src={logo} alt="logo" width={50} height={50} />
+          <div className="flex flex-col space-y-1">
+            <h1 className="text-2xl text-pallete1-headersmall font-semibold">
+              Welcome to Startup Sync
+            </h1>
+            <p className="text-sm text-pallete1-headercaption">
+              Enter your details to get started
+            </p>
+          </div>
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4 mt-5 px-8 py-4"
+        >
+          <Input
+            type="text"
+            placeholder="Username"
+            name="username"
+            register={register}
+            required
+            adornment={{
+              end: {
+                icon: usernameStatus
+                  ? usernameAvailableStatus[usernameStatus]
+                  : null,
+              },
+            }}
+            rules={{
+              required: "This field is required",
+              minLength: {
+                value: 3,
+                message: "Username should be at least 3 characters",
+              },
+              validate: (value) => {
+                return (
+                  usernameStatus === "Available" || "Username is not available"
+                );
+              },
+            }}
+          />
+          <div className="grid grid-cols-2 gap-6">
+            <Input
+              type="text"
+              placeholder="First Name"
+              name="firstName"
+              register={register}
+            />
+            <Input
+              type="text"
+              placeholder="Last Name"
+              name="lastName"
+              register={register}
+            />
+          </div>
+          <Input
+            type="email"
+            placeholder="Email"
+            register={register}
+            name="email"
+            required
+          />
+          <RadioGroup
+            options={radioOptions}
+            label="Gender"
+            name="gender"
+            register={register}
+          />
+          <div className="grid grid-cols-2 gap-6">
+            <Input
+              type="text"
+              placeholder="Password"
+              name="password"
+              register={register}
+            />
+            <Input
+              type="text"
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              register={register}
+            />
+          </div>
+          <Button type="submit" loading={loading}>
+            Sign Up
+          </Button>
+        </form>
+      </div>
+      <div className="bg-[url(/images/signup-banner.jpg)] bg-cover bg-center rounded-r-md p-5"></div>
     </div>
   );
 };
