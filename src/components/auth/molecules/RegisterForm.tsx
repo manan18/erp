@@ -22,7 +22,7 @@ import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
 import Link from "next/link";
-import RadioGroup from "../atoms/radio";
+import RadioGroup from "@/components/atoms/input/raido";
 
 type UserData = {
   email: string;
@@ -139,11 +139,11 @@ const RegisterForm = () => {
 
   return (
     <div
-      className="w-full bg-white sm:max-w-6xl max-w-[85vw] min-h-[200px] rounded-md shadow-lg border border-white grid grid-cols-2"
+      className="w-full p-8 bg-white sm:max-w-6xl max-w-[85vw] min-h-[200px] rounded-md shadow-lg border border-white grid grid-cols-2"
       ref={containerRef}
     >
-      <div className="p-3">
-        <div className="flex space-x-4 items-center">
+      <div className="">
+        <div className="flex space-x-2 items-center">
           <Image src={logo} alt="logo" width={50} height={50} />
           <div className="flex flex-col space-y-1">
             <h1 className="text-2xl text-pallete1-headersmall font-semibold">
@@ -154,81 +154,82 @@ const RegisterForm = () => {
             </p>
           </div>
         </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 mt-5 px-8 py-4"
-        >
-          <Input
-            type="text"
-            placeholder="Username"
-            name="username"
-            register={register}
-            required
-            adornment={{
-              end: {
-                icon: usernameStatus
-                  ? usernameAvailableStatus[usernameStatus]
-                  : null,
-              },
-            }}
-            rules={{
-              required: "This field is required",
-              minLength: {
-                value: 3,
-                message: "Username should be at least 3 characters",
-              },
-              validate: (value) => {
-                return (
-                  usernameStatus === "Available" || "Username is not available"
-                );
-              },
-            }}
-          />
-          <div className="grid grid-cols-2 gap-6">
+        <div className="px-8">
+          <GoogleButton />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
               type="text"
-              placeholder="First Name"
-              name="firstName"
+              placeholder="Username"
+              name="username"
               register={register}
+              required
+              adornment={{
+                end: {
+                  icon: usernameStatus
+                    ? usernameAvailableStatus[usernameStatus]
+                    : null,
+                },
+              }}
+              rules={{
+                required: "This field is required",
+                minLength: {
+                  value: 3,
+                  message: "Username should be at least 3 characters",
+                },
+                validate: (value) => {
+                  return (
+                    usernameStatus === "Available" ||
+                    "Username is not available"
+                  );
+                },
+              }}
             />
+            <div className="grid grid-cols-2 gap-6">
+              <Input
+                type="text"
+                placeholder="First Name"
+                name="firstName"
+                register={register}
+              />
+              <Input
+                type="text"
+                placeholder="Last Name"
+                name="lastName"
+                register={register}
+              />
+            </div>
             <Input
-              type="text"
-              placeholder="Last Name"
-              name="lastName"
+              type="email"
+              placeholder="Email"
+              register={register}
+              name="email"
+              required
+            />
+            <div className="grid grid-cols-2 gap-6">
+              <Input
+                type="text"
+                placeholder="Password"
+                name="password"
+                register={register}
+              />
+              <Input
+                type="text"
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                register={register}
+              />
+            </div>
+            <RadioGroup
+              options={radioOptions}
+              label="Gender"
+              name="gender"
               register={register}
             />
-          </div>
-          <Input
-            type="email"
-            placeholder="Email"
-            register={register}
-            name="email"
-            required
-          />
-          <div className="grid grid-cols-2 gap-6">
-            <Input
-              type="text"
-              placeholder="Password"
-              name="password"
-              register={register}
-            />
-            <Input
-              type="text"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              register={register}
-            />
-          </div>
-          <RadioGroup
-            options={radioOptions}
-            label="Gender"
-            name="gender"
-            register={register}
-          />
-          <Button type="submit" loading={loading}>
-            Sign Up
-          </Button>
-        </form>
+            <Button type="submit" loading={loading}>
+              Sign Up
+            </Button>
+          </form>
+        </div>
       </div>
       <div className="bg-[url(/images/signup-banner.jpg)] bg-cover bg-center rounded-r-md p-5"></div>
     </div>
