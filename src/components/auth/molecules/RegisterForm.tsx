@@ -21,16 +21,14 @@ import { MoonLoader } from "react-spinners";
 import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
-import Link from "next/link";
-import RadioGroup from "@/components/atoms/input/raido";
 
 type UserData = {
   email: string;
   username: string;
   password: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   confirmPassword: string;
-  gender: "Male" | "Female" | null;
 };
 
 const RegisterForm = () => {
@@ -61,9 +59,9 @@ const RegisterForm = () => {
   } = useForm<UserData>({
     defaultValues: {
       email: "",
-      gender: null,
       password: "",
-      name: "",
+      firstName: "",
+      lastName: "",
       username: "",
       confirmPassword: "",
     },
@@ -73,7 +71,7 @@ const RegisterForm = () => {
   const watchUsername = watch("username", "");
 
   useMemo(() => {
-    if (watchUsername) {
+    if (watchUsername && watchUsername.length >= 3) {
       setUsernameStatus("Loading");
       usernameExists(watchUsername).then((res) => {
         setUsernameStatus(res ? "Unavailable" : "Available");
@@ -92,23 +90,24 @@ const RegisterForm = () => {
   }, [containerRef.current]);
 
   const onSubmit = async (data: UserData) => {
-    const { email, password, name, username } = data;
+    const { email, password, firstName, lastName, username } = data;
+    const name = `${firstName} ${lastName}`;
     try {
-      console.log(data);
-      // await signUp({ email, password, name, username });
-      // toast.success("Account created successfully", {
-      //   position: "top-right",
-      //   autoClose: 3000,
-      //   transition: Zoom,
-      //   icon: <span className="text-xl">🚀</span>,
-      //   hideProgressBar: true,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
-      // reset();
-      // router.push("/");
+      setLoading(true);
+      await signUp({ email, password, name, username });
+      toast.success("Account created successfully", {
+        position: "top-right",
+        autoClose: 3000,
+        transition: Zoom,
+        icon: <span className="text-xl">🚀</span>,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      reset();
+      router.push("/");
     } catch (error) {
       console.error(error);
       toast.error("Error creating account", {
@@ -126,23 +125,12 @@ const RegisterForm = () => {
     }
   };
 
-  const radioOptions = [
-    {
-      value: "Male",
-      label: "Male",
-    },
-    {
-      value: "Female",
-      label: "Female",
-    },
-  ];
-
   return (
     <div
-      className="w-full p-8 bg-white sm:max-w-6xl max-w-[85vw] min-h-[200px] rounded-md shadow-lg border border-white grid grid-cols-2"
+      className="w-full bg-white sm:max-w-6xl max-w-[85vw] min-h-[200px] rounded-md shadow-lg border border-white grid grid-cols-2"
       ref={containerRef}
     >
-      <div className="">
+      <div className="p-8">
         <div className="flex space-x-2 items-center">
           <Image src={logo} alt="logo" width={50} height={50} />
           <div className="flex flex-col space-y-1">
@@ -162,6 +150,7 @@ const RegisterForm = () => {
               placeholder="Username"
               name="username"
               register={register}
+              error={!!errors.username}
               required
               adornment={{
                 end: {
@@ -183,6 +172,7 @@ const RegisterForm = () => {
                   );
                 },
               }}
+              helperText={errors.username?.message}
             />
             <div className="grid grid-cols-2 gap-6">
               <Input
@@ -190,6 +180,11 @@ const RegisterForm = () => {
                 placeholder="First Name"
                 name="firstName"
                 register={register}
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message}
+                rules={{
+                  required: "This field is required",
+                }}
               />
               <Input
                 type="text"
@@ -203,29 +198,80 @@ const RegisterForm = () => {
               placeholder="Email"
               register={register}
               name="email"
+              error={!!errors.email}
+              helperText={errors.email?.message}
               required
+              rules={{
+                required: "This field is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Invalid email address",
+                },
+              }}
             />
             <div className="grid grid-cols-2 gap-6">
               <Input
-                type="text"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 name="password"
                 register={register}
+                error={!!errors.password}
+                required
+                helperText={errors.password?.message}
+                adornment={{
+                  end: {
+                    icon: showPassword ? (
+                      <IoMdEyeOff
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="cursor-pointer"
+                      />
+                    ) : (
+                      <IoMdEye
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="cursor-pointer"
+                      />
+                    ),
+                  },
+                }}
+                rules={{
+                  required: "This field is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password should be at least 6 characters",
+                  },
+                }}
               />
               <Input
-                type="text"
+                type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm Password"
                 name="confirmPassword"
                 register={register}
+                adornment={{
+                  end: {
+                    icon: showConfirmPassword ? (
+                      <IoMdEyeOff
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        className="cursor-pointer"
+                      />
+                    ) : (
+                      <IoMdEye
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        className="cursor-pointer"
+                      />
+                    ),
+                  },
+                }}
+                error={!!errors.confirmPassword}
+                required
+                helperText={errors.confirmPassword?.message}
+                rules={{
+                  required: "This field is required",
+                  validate: (value) =>
+                    value === watchPassword || "Password does not match",
+                }}
               />
             </div>
-            <RadioGroup
-              options={radioOptions}
-              label="Gender"
-              name="gender"
-              register={register}
-            />
-            <Button type="submit" loading={loading}>
+            <Button type="submit" loading={loading} className="w-full">
               Sign Up
             </Button>
           </form>

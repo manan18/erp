@@ -1,3 +1,4 @@
+import { error } from "console";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -50,6 +51,7 @@ const config: Config = {
       dropShadow: {
         glow: "0 0 30px #15253e",
         input: "0 0 3px #818cf8",
+        "input-error": "0 0 3px #fa3a5c",
       },
       fontFamily: {
         reenie: ["Reenie Beanie", "cursive"],
