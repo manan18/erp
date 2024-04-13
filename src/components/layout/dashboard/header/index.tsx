@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import AuthContext from "@/contexts/AuthContext";
+import React from "react";
+import useAuth from "@/hooks/auth";
 import logo from "@/assets/images/logo.png";
 import Image from "next/image";
 import avatar from "@/assets/images/avatars/user.jpeg";
 import { MdOutlineSettings } from "react-icons/md";
-import { Popover } from '@headlessui/react'
+import { Popover } from "@headlessui/react";
 
 const ProfileIcon = () => {
-  const { authData } = useContext(AuthContext);
+  const { user } = useAuth();
   return (
     <Popover as="div" className="relative">
       <Popover.Button>
@@ -29,8 +29,8 @@ const ProfileIcon = () => {
             className="rounded-full"
           />
           <div>
-            <h1 className="text-sm font-semibold">{authData?.user?.name}</h1>
-            <p className="text-xs text-gray-500">{authData?.user?.email}</p>
+            <h1 className="text-sm font-semibold">{user?.name}</h1>
+            <p className="text-xs text-gray-500">{user?.email}</p>
           </div>
         </div>
         <div className="mt-4">

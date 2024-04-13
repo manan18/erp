@@ -1,5 +1,6 @@
 import { UserType } from "@/types/user";
 import axios from "@/config/axios.config";
+import { AxiosError } from "axios";
 
 export type UserLoginType = {
   identifier: string;
@@ -14,10 +15,14 @@ export type UserRegisterType = {
 };
 
 export async function login(user: UserLoginType) {
-  await axios.post("/auth/login", user, {
-    withCredentials: true,
-  });
-  return null;
+  try {
+    const response = await axios.post("/auth/login", user, {
+      withCredentials: true,
+    });
+    return response.data.user;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function validate(): Promise<UserType> {
@@ -35,9 +40,14 @@ export async function logout() {
 }
 
 export async function signUp(user: UserRegisterType) {
-  await axios.post("/auth/register", user, {
-    withCredentials: true,
-  });
+  try {
+    const response = await axios.post("/auth/signup", user);
+    return response.data.user;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data.message);
+    } else throw new Error("An error occurred. Please try again.");
+  }
   return null;
 }
 

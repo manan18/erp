@@ -1,16 +1,13 @@
 "use client";
 
-import AuthContext, { Role } from "@/contexts/AuthContext";
+import useAuth from "@/hooks/auth";
+import { Role } from "@/types/user";
 import DashboardView from "@/ui/Home/Dasboard";
 import LandingView from "@/ui/Home/Landing";
 import LoadingView from "@/ui/Loading";
-import { useContext } from "react";
 
 export default function HomeView() {
-  const {
-    loading,
-    authData: { role },
-  } = useContext(AuthContext);
+  const { loading, role } = useAuth();
 
   if (loading) {
     return <LoadingView />;

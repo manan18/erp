@@ -1,7 +1,7 @@
 "use client";
-
-import { UserType } from "@/types/user";
-import React, { createContext, useEffect } from "react";
+import { Role, AuthDataType } from "@/types/user";
+import React, { useEffect } from "react";
+import AuthContext from "@/contexts/auth";
 import {
   UserLoginType,
   login as l,
@@ -9,35 +9,6 @@ import {
   signUp,
   UserRegisterType,
 } from "@/lib/auth";
-
-export enum Role {
-  GUEST = "guest",
-  USER = "user",
-}
-
-export type AuthDataType = {
-  user: UserType | null;
-  role: Role;
-};
-
-const AuthContext = createContext<{
-  authData: AuthDataType;
-  error: string | null;
-  login: (user: UserLoginType) => Promise<void>;
-  logout: () => Promise<void>;
-  register: (user: UserRegisterType) => Promise<void>;
-  loading: boolean;
-}>({
-  authData: {
-    user: null,
-    role: Role.GUEST,
-  },
-  error: null,
-  login: async () => {},
-  logout: async () => {},
-  register: async () => {},
-  loading: true,
-});
 
 export const AuthProvider: React.FC<{
   children: React.ReactNode;
@@ -47,27 +18,17 @@ export const AuthProvider: React.FC<{
     user: null,
   });
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  const handleError = (err: unknown) => {
-    setAuthData({
-      role: Role.GUEST,
-      user: null,
-    });
-    setError(err instanceof Error ? err.message : "Something went wrong");
-  };
 
   const login = async (user: UserLoginType) => {
     try {
       setLoading(true);
-      await l(user);
-      const userData = await v();
+      const userData = await l(user);
       setAuthData({
         role: Role.USER,
         user: userData,
       });
     } catch (err) {
-      handleError(err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -82,7 +43,6 @@ export const AuthProvider: React.FC<{
         user: userData,
       });
     } catch (err) {
-      handleError(err);
     } finally {
       setLoading(false);
     }
@@ -93,7 +53,6 @@ export const AuthProvider: React.FC<{
       setLoading(true);
       console.log("logout");
     } catch (err) {
-      handleError(err);
     } finally {
       setLoading(false);
     }
@@ -102,33 +61,30 @@ export const AuthProvider: React.FC<{
   const register = async (user: UserRegisterType) => {
     try {
       setLoading(true);
-      await signUp(user);
-      const userData = await v();
+      const userData = await signUp(user);
       setAuthData({
         role: Role.USER,
         user: userData,
       });
     } catch (err) {
-      handleError(err);
+      throw err;
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    // Init load, validate
-    validate();
-  }, []);
-
-  useEffect(() => {
-    if (authData.user) setError(null);
-  }, [authData]);
+    if (!authData.user) {
+      validate();
+    } else {
+      setLoading(false);
+    }
+  }, [authData.user]);
 
   return (
     <AuthContext.Provider
       value={{
         authData,
-        error,
         loading,
         login,
         logout,
@@ -140,4 +96,4 @@ export const AuthProvider: React.FC<{
   );
 };
 
-export default AuthContext;
+export default AuthProvider;

@@ -1,8 +1,10 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
+import useAuth from "@/hooks/auth";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -14,7 +16,7 @@ import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
 import IconButton from "@/components/atoms/button/icon";
-import AuthContext from "@/contexts/AuthContext";
+import { AxiosError } from "axios";
 
 type UserData = {
   identifier: string;
@@ -25,11 +27,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
-  const { login, error, loading } = useContext(AuthContext);
-
-  useEffect(() => {
-    console.log({ error });
-  }, [error]);
+  const { login, loading } = useAuth();
 
   const {
     register,
@@ -45,11 +43,14 @@ const LoginForm = () => {
   const onSubmit = async (data: UserData) => {
     const { identifier, password } = data;
     try {
-      const userCredential = login({ identifier, password });
-      console.log(userCredential);
+      await login({ identifier, password });
       router.push("/");
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
 

@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useContext, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef } from "react";
+import useAuth from "@/hooks/auth";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { Zoom, toast } from "react-toastify";
@@ -7,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { usernameExists } from "@/lib/auth";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import AuthContext from "@/contexts/AuthContext";
 
 //assets
 import logo from "@/assets/images/logo.png";
@@ -21,6 +21,7 @@ import { MoonLoader } from "react-spinners";
 import Input from "@/components/atoms/input";
 import Button from "@/components/atoms/button";
 import GoogleButton from "../atoms/google-button";
+import { AxiosError } from "axios";
 
 type UserData = {
   email: string;
@@ -33,7 +34,7 @@ type UserData = {
 
 const RegisterForm = () => {
   const router = useRouter();
-  const { register: signUp } = useContext(AuthContext);
+  const { register: signUp } = useAuth();
 
   const usernameAvailableStatus = {
     Available: <CiCircleCheck className="text-green-500" />,
@@ -109,17 +110,11 @@ const RegisterForm = () => {
       reset();
       router.push("/");
     } catch (error) {
-      console.error(error);
-      toast.error("Error creating account", {
-        position: "top-right",
-        autoClose: 1000,
-        transition: Zoom,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
