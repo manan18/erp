@@ -6,6 +6,7 @@ import {
   UserLoginType,
   login as l,
   validate as v,
+  logout as signOut,
   signUp,
   UserRegisterType,
 } from "@/lib/auth";
@@ -51,8 +52,13 @@ export const AuthProvider: React.FC<{
   const logout = async () => {
     try {
       setLoading(true);
-      console.log("logout");
+      await signOut();
+      setAuthData({
+        role: Role.GUEST,
+        user: null,
+      });
     } catch (err) {
+      throw err;
     } finally {
       setLoading(false);
     }

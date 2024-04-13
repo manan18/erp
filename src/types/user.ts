@@ -5,6 +5,7 @@ export type AuthDataType = {
 
 export type UserType = {
   name: string;
+  username: string;
   email: string;
   id: string;
 };

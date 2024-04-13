@@ -17,7 +17,7 @@ const config: Config = {
       },
       colors: {
         pallete1: {
-          background: "f4f4f4",
+          background: "#f4f4f4",
           headersmall: "#04293a",
           headerbig: "#04293a",
           headercaption: "#B7BDB0",

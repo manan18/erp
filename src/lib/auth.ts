@@ -26,10 +26,14 @@ export async function login(user: UserLoginType) {
 }
 
 export async function validate(): Promise<UserType> {
-  const authData = await axios.post("/auth/validate", null, {
-    withCredentials: true,
-  });
-  return authData.data;
+  try {
+    const response = await axios.post("/auth/validate", {
+      withCredentials: true,
+    });
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function logout() {

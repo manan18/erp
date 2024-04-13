@@ -1,12 +1,17 @@
 import React from "react";
-import Button from "@/components/atoms/button";
 import DashboardLayout from "@/components/layout/dashboard";
+import useAuth from "@/hooks/auth";
 
 const DashboardView = () => {
+  const hours = new Date().getHours();
+  const { user } = useAuth();
+
   return (
     <DashboardLayout>
       <div>
-        <h1 className="text-2xl text-white">Good Morning Sumit</h1>
+        <h1 className="text-xl font-medium">{`Good ${
+          hours < 12 ? "Morning" : hours < 18 ? "Afternoon" : "Evening"
+        } ${user?.name.split(" ")[0]},`}</h1>
       </div>
     </DashboardLayout>
   );
