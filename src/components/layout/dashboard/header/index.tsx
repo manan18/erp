@@ -1,6 +1,7 @@
 import React from "react";
 import useAuth from "@/hooks/auth";
 import Image from "next/image";
+import Link from "next/link";
 import { Popover } from "@headlessui/react";
 import IconButton from "@/components/atoms/button/icon";
 
@@ -10,8 +11,8 @@ import avatar from "@/assets/images/avatars/user.jpeg";
 import { MdOutlineSettings } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdMoon } from "react-icons/io";
-import { FaAngleRight, FaQuestion } from "react-icons/fa6";
-import Link from "next/link";
+import { FaQuestion } from "react-icons/fa6";
+import Icon from "@/components/atoms/icon";
 
 type ProfileOption = {
   type: "link" | "button" | "toggle";
@@ -60,8 +61,8 @@ const ProfileIcon = () => {
           className="rounded-full cursor-pointer w-10 h-10"
         />
       </Popover.Button>
-      <Popover.Panel className="absolute right-0 z-10 w-max p-4 bg-white rounded-lg shadow-lg">
-        <div className="flex justify-between border-b items-center gap-3">
+      <Popover.Panel className="absolute right-0 z-10 w-max p-2 bg-white rounded-lg shadow-lg">
+        <div className="flex justify-between border-b p-2 items-center gap-3">
           <div className="flex flex-col pb-2 flex-1">
             <p className="text-sm font-medium text-gray-800">{user?.name}</p>
             <p className="text-xs text-gray-500">{`@${user?.username}`}</p>
@@ -73,16 +74,18 @@ const ProfileIcon = () => {
             className="text-red-500"
           />
         </div>
-        <div className="mt-4 space-y-4">
+        <div className="mt-2 text-sm">
           {profileOptions.map((option, index) => {
             if (option.type === "link" && option.path) {
               return (
                 <Link
                   key={index}
                   href={option.path}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 hover:bg-gray-100 py-3 px-2 rounded-md"
                 >
-                  {option.icon}
+                  <Icon variant="contained" shape="circle">
+                    {option.icon}
+                  </Icon>
                   <span>{option.title}</span>
                 </Link>
               );
@@ -91,7 +94,7 @@ const ProfileIcon = () => {
                 <button
                   key={index}
                   onClick={option.onClick}
-                  className="flex items-center space-x-2"
+                  className="flex items-center space-x-2 py-3 px-2 hover:bg-gray-100 rounded-md"
                 >
                   {option.icon}
                   <span>{option.title}</span>
@@ -102,9 +105,11 @@ const ProfileIcon = () => {
                 <button
                   key={index}
                   onClick={option.onClick}
-                  className="flex items-center space-x-2"
+                  className="flex items-center py-3 px-2 space-x-2"
                 >
-                  {option.icon}
+                  <Icon variant="contained" shape="circle">
+                    {option.icon}
+                  </Icon>
                   <span>{option.title}</span>
                 </button>
               );

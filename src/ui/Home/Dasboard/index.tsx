@@ -1,6 +1,8 @@
 import React from "react";
 import DashboardLayout from "@/components/layout/dashboard";
 import useAuth from "@/hooks/auth";
+import useCompanies from "@/hooks/useCompanies";
+import { useSearchParams } from "next/navigation";
 
 const DashboardView = () => {
   const hours = new Date().getHours();

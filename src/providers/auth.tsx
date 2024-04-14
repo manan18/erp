@@ -44,6 +44,7 @@ export const AuthProvider: React.FC<{
         user: userData,
       });
     } catch (err) {
+      throw err;
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,5 @@
 import { UserLoginType, UserRegisterType } from "@/lib/auth";
-import { UserType, Role, AuthDataType } from "@/types/user";
+import { Role, AuthDataType } from "@/types/user";
 import { createContext } from "react";
 
 const AuthContext = createContext<{
