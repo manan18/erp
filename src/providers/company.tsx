@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CompanyContext from "@/contexts/companies";
 import { CompanyType } from "@/types/company";
 import { getCompanies, addCompany, removeCompany } from "@/lib/company";
@@ -11,11 +11,18 @@ export default function CompanyProvider({
 }) {
   const [companies, setCompanies] = React.useState<CompanyType[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [meta, setMeta] = useState({
+    total: 0,
+    limit: 10,
+    page: 1,
+    totalPages: 1,
+  });
 
   const refreshCompanies = async () => {
     setLoading(true);
     const companies = await getCompanies();
-    setCompanies(companies);
+    setCompanies(companies.data);
+    setMeta(companies.meta);
     setLoading(false);
   };
 
@@ -27,6 +34,7 @@ export default function CompanyProvider({
     <CompanyContext.Provider
       value={{
         companies,
+        meta,
         addCompany: async (company) => {
           await addCompany(company);
           refreshCompanies();

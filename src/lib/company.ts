@@ -1,7 +1,15 @@
 import axios from "@/config/axios.config";
 import { CompanyType } from "@/types/company";
 
-export async function getCompanies(): Promise<CompanyType[]> {
+export async function getCompanies(): Promise<{
+  data: CompanyType[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}> {
   const response = await axios.get("/users/companies", {
     withCredentials: true,
   });
