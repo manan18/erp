@@ -74,7 +74,7 @@ const ProfileIcon = () => {
             className="text-red-500"
           />
         </div>
-        <div className="mt-2 text-sm">
+        <div className="mt-2">
           {profileOptions.map((option, index) => {
             if (option.type === "link" && option.path) {
               return (

@@ -2,7 +2,7 @@ import axios from "@/config/axios.config";
 import { CompanyType } from "@/types/company";
 
 export async function getCompanies(): Promise<{
-  data: CompanyType[];
+  companies: CompanyType[];
   meta: {
     total: number;
     page: number;

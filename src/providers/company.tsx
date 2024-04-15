@@ -21,7 +21,7 @@ export default function CompanyProvider({
   const refreshCompanies = async () => {
     setLoading(true);
     const companies = await getCompanies();
-    setCompanies(companies.data);
+    setCompanies(companies.companies);
     setMeta(companies.meta);
     setLoading(false);
   };
